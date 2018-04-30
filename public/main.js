@@ -13,22 +13,25 @@ window.onload = function() {
 
   const database = firebase.database().ref();
 
-  // Set HTML Variables
+  // Set HTTP variables
   const questionForm = document.getElementById('post-form');
   const answerTextbox = document.getElementById('answer-input');
   const submitButton = document.getElementById('submit-button');
   const readOut = document.getElementById('read-out');
-  // Variable to store the synced DB data
+  //Initialises socket.io
+  const socket = io();
+  // Variables to store the synced DB data
   var dbObj = {};
   var words = [];
 
   //Variable that sets where writeUserData stores the data in the DB
-  var wordRef = firebase.database().ref('words');
+  var questionRef = 'Question1'
+  var dbLocation = firebase.database().ref(questionRef);
 
   //Function to post a new word into the DB or increment existing
   function writeUserData(input) {
     console.log('in writeUserData', arguments);
-    wordRef.transaction(function(currentData) {
+    dbLocation.transaction(function(currentData) {
       console.log('currentData', currentData);
       console.log('currentData[input]', currentData[input]);
       const val = currentData[input];
@@ -66,11 +69,11 @@ window.onload = function() {
 
   //Gets the database data when it changes and stores it as an array
   database.on('value', function(snap){
-    dbObj = snap.child('words').val();
+    dbObj = snap.child(questionRef).val();
     var tempArray = [];
     for (var key in dbObj) {
       if (dbObj.hasOwnProperty(key)) {
-        console.log('for in key result ' + dbObj[key] + ' key: ' + key);
+        // console.log('for in key result ' + dbObj[key] + ' key: ' + key);
         tempArray.push(`{text: '${key}', size: ${dbObj[key]}}`);
       }
     }
@@ -78,22 +81,15 @@ window.onload = function() {
     words = tempArray.map(i => i);
     readOut.innerText = JSON.stringify(dbObj);
     console.log('words: ' + words);
-    d3.wordcloud()
-      .size([800, 400])
-      .selector('#wordcloud')
-      .fill(d3.scale.ordinal().range(["#884400", "#448800", "#888800", "#444400"]))
-      // .words([{text: 'word', size: 5}, {text: 'cloud', size: 15}])
-      .words(words)
-      .start();
   })
 
-
-  // d3.wordcloud()
-  //   .size([800, 400])
-  //   .selector('#wordcloud')
-  //   .fill(d3.scale.ordinal().range(["#884400", "#448800", "#888800", "#444400"]))
-  //   // .words([{text: 'word', size: 5}, {text: 'cloud', size: 15}])
-  //   .words(words)
-  //   .start();
+  //Creates word cloud
+  d3.wordcloud()
+    .size([800, 400])
+    .selector('#wordcloud')
+    .fill(d3.scale.ordinal().range(["#884400", "#448800", "#888800", "#444400"]))
+    // .words([{text: 'word', size: 5}, {text: 'cloud', size: 15}])
+    .words(words)
+    .start();
 
 };
