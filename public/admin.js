@@ -39,6 +39,7 @@ window.onload = function() {
       postData();
       console.log(newQuestion.dbLocation);
       console.log(newQuestion.question);
+      newQuestionField.value = "";
     } else window.alert('Question must not be empty');
   });
 

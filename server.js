@@ -7,18 +7,27 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var axios = require('axios');
 var PORT = process.env.PORT || 3333;
+var firebase = require('firebase');
+var config = {
+  apiKey: "AIzaSyBgyCuwZ_k5JgCvF08rf75XJtZSQlzDVOY",
+  authDomain: "word-cloud-poc.firebaseapp.com",
+  databaseURL: "https://word-cloud-poc.firebaseio.com",
+  projectId: "word-cloud-poc",
+  storageBucket: "word-cloud-poc.appspot.com",
+  messagingSenderId: "873961534305"
+};
 
+//Initialize Firebase for DB updates and bodyParser for express routing
+firebase.initializeApp(config);
 app.use(bodyParser.json());
 
 //Making pages and static files available
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
 });
-
 app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html');
 });
-
 app.use(express.static(__dirname + '/public'));
 
 //Open web socket with users
@@ -31,7 +40,14 @@ io.on('connection', function(socket){
 app.post('/question', function(req, res){
   console.log('req.body: ' + req.body);
   const newQuestion = req.body;
-  console.log('newQuestion: ' + newQuestion)
+  console.log('newQuestion.question: ' + newQuestion.question);
+
+  //Creates a new child node in Firebase with a dummy entry
+  firebase.database().ref(newQuestion.dbLocation).set({
+      ___admin: "Delete Me",
+  });
+  
+  //Emits the new question data to users <-- NEED TO HANDLE IT NOW.
   io.emit('newQuestion', newQuestion);
   res.sendStatus(201);
 });

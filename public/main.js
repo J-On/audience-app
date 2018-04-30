@@ -18,6 +18,7 @@ window.onload = function() {
   const answerTextbox = document.getElementById('answer-input');
   const submitButton = document.getElementById('submit-button');
   const readOut = document.getElementById('read-out');
+  const questionPara = document.getElementById('question');
   //Initialises socket.io
   const socket = io();
   // Variables to store the synced DB data
@@ -30,10 +31,10 @@ window.onload = function() {
 
   //Function to post a new word into the DB or increment existing
   function writeUserData(input) {
-    console.log('in writeUserData', arguments);
+    // console.log('in writeUserData', arguments);
     dbLocation.transaction(function(currentData) {
-      console.log('currentData', currentData);
-      console.log('currentData[input]', currentData[input]);
+      // console.log('currentData', currentData);
+      // console.log('currentData[input]', currentData[input]);
       const val = currentData[input];
       if (!val && typeof val !== 'number') {
         return {
@@ -77,11 +78,19 @@ window.onload = function() {
         tempArray.push(`{text: '${key}', size: ${dbObj[key]}}`);
       }
     }
-    console.log('tempArray: '+ tempArray);
+    // console.log('tempArray: '+ tempArray);
     words = tempArray.map(i => i);
     readOut.innerText = JSON.stringify(dbObj);
-    console.log('words: ' + words);
+    // console.log('words: ' + words);
   })
+
+  //Updates the question and DB location on admin submit
+  socket.on('newQuestion', (data) => {
+    console.log('data.dbLocation: ' + data.dbLocation);
+    console.log('data.question: ' + data.question);
+    questionRef = data.dbLocation;
+    questionPara.innerText = data.question;
+  });
 
   //Creates word cloud
   d3.wordcloud()
