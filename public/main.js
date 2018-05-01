@@ -60,12 +60,19 @@ window.onload = function() {
     });
   }
 
-  //Passes the question field data into the database via writeUserData
+  //Cleans the answer into individual words and
+  //Passes each word into the database via writeUserData
   questionForm.addEventListener('submit', function(e) {
-    // writeUserData(answerForm.value);
     e.preventDefault();
-    let userInput = answerTextbox.value;
-    writeUserData(userInput);
+    const punctRE = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g;
+    const spaceRE = /\s+/g;
+    const str = answerTextbox.value;
+    const userInputLong = str.replace(punctRE, '').replace(spaceRE, ' ');
+    const userInputArray = userInputLong.split(" ");
+    console.log(userInputArray);
+    for (let word of userInputArray) {
+      writeUserData(word);
+    }
   });
 
   //Gets the database data when it changes and stores it as an array

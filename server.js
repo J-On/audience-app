@@ -17,6 +17,8 @@ var config = {
   messagingSenderId: "873961534305"
 };
 
+var userCount = null
+
 //Initialize Firebase for DB updates and bodyParser for express routing
 firebase.initializeApp(config);
 app.use(bodyParser.json());
@@ -30,10 +32,14 @@ app.get('/admin', function(req, res){
 });
 app.use(express.static(__dirname + '/public'));
 
-//Open web socket with users
+//Open web socket with users and updates user count
 io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on("disconnect", () => console.log("a user disconnected"));
+  userCount +=1;
+  console.log('a user connected. user count: ' + userCount);
+  socket.on("disconnect", function() {
+    userCount -=1;
+    console.log('a user disconnected. user count: ' + userCount);
+  });
 });
 
 //Post data ** WHAT VALIDATION CHECKS SHOULD I INCLUDE HERE?
@@ -46,7 +52,7 @@ app.post('/question', function(req, res){
   firebase.database().ref(newQuestion.dbLocation).set({
       ___admin: "Delete Me",
   });
-  
+
   //Emits the new question data to users <-- NEED TO HANDLE IT NOW.
   io.emit('newQuestion', newQuestion);
   res.sendStatus(201);
