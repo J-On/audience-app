@@ -30,39 +30,24 @@ $(function(){
     var tempArray = [];
     for (var key in dbObj) {
       if (dbObj.hasOwnProperty(key)) {
-        // console.log('for in key result ' + dbObj[key] + ' key: ' + key);
         tempArray.push({text: `${key}`, weight: dbObj[key]});
-        // console.log('TempArray:' + `{text: "${key}", weight: ${dbObj[key]}}`);
+      }
     }
 
-    console.log('tempArray with delete me: ',tempArray)
-
-    // for (var key in tempArray) {
-    //   if (tempArray[key].text === "___admin")
-    //   console.log('tempArray key: ', tempArray[key].text)
-    //   tempArray.splice(key, 1);
-    // }
-
-    console.log('tempArray minus delete me: ',tempArray)
-    console.log('questionRef: '+ questionRef)
-    }
-
-    // console.log('tempArray: ', tempArray);
     words = tempArray.map(i => i);
-    // console.log('words ',words);
     $('#keywords').jQCloud('update', words);
   });
 
   $('#keywords').jQCloud(words, {
-    width: 500,
-    height: 300
+    width: 800,
+    height: 500
   });
 
   //Updates the question and DB location on admin submit
   socket.on('newQuestion', (data) => {
-    // console.log('data.dbLocation: ' + data.dbLocation);
-    // console.log('data.question: ' + data.question);
+    console.log('data.dbLocation: ' + data.dbLocation);
     questionRef = data.dbLocation;
+    console.log('questionRef: ' +  questionRef);
     questionTitle.innerText = data.question;
   });
 

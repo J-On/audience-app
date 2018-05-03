@@ -31,10 +31,9 @@ window.onload = function() {
 
   //Function to post a new word into the DB or increment existing
   function writeUserData(input) {
-    // console.log('in writeUserData', arguments);
+    dbLocation = firebase.database().ref(questionRef);
+    console.log('dbnLocation', dbLocation);
     dbLocation.transaction(function(currentData) {
-      // console.log('currentData', currentData);
-      // console.log('currentData[input]', currentData[input]);
       const val = currentData[input];
       if (!val && typeof val !== 'number') {
         return {
@@ -58,13 +57,6 @@ window.onload = function() {
       }
       console.log("The data: ", snapshot.val());
     });
-    // firebase.database().ref(questionRef + '/___admin').remove()
-    // .then(function() {
-    //   console.log("Remove succeeded.")
-    // })
-    // .catch(function(error) {
-    //   continue;
-    // });
   }
 
   //Cleans the answer into individual words and
@@ -79,6 +71,7 @@ window.onload = function() {
     console.log(userInputArray);
     for (let word of userInputArray) {
       writeUserData(word);
+      answerTextbox.innerText = ""
     }
   });
 
@@ -100,9 +93,11 @@ window.onload = function() {
 
   //Updates the question and DB location on admin submit
   socket.on('newQuestion', (data) => {
+    console.log('I am listening');
     console.log('data.dbLocation: ' + data.dbLocation);
     console.log('data.question: ' + data.question);
     questionRef = data.dbLocation;
+    console.log('questionref', questionRef);
     questionPara.innerText = data.question;
   });
 

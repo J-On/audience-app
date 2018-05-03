@@ -45,13 +45,3 @@ window.onload = function() {
 
 
 } //window.onload end
-
-//First: Update the question text using emit
-// Get the question on button submit
-// Put into a JSON object and pass to server using axios?
-// Use socket emit to update the question text in the user panel
-
-//Second: Include a new location for the database data (addChild?)
-// User panel updates the location in its firebase references
-
-//Third: Word cloud moves onto the new data

@@ -53,11 +53,13 @@ app.post('/question', function(req, res){
 
   //Creates a new child node in Firebase with a dummy entry
   firebase.database().ref(newQuestion.dbLocation).set({
-      ___admin: "0",
-  });
+      _: "0",
+  })
 
   //Emits the new question data to users <-- NEED TO HANDLE IT NOW.
+  console.log('emitting');
   io.emit('newQuestion', newQuestion);
+
   res.sendStatus(201);
 });
 
