@@ -5,6 +5,18 @@
  * Copyright 2014-2017 Damien "Mistic" Sorel (http://www.strangeplanet.fr)
  * Licensed under MIT (http://opensource.org/licenses/MIT)
  */
+
+h1 {
+  font-family: "Helvetica", "Arial", sans-serif;
+  text-align: center;
+}
+
+h3 {
+  font-family: "Helvetica", "Arial", sans-serif;
+  text-align: center;
+}
+
+
 .jqcloud {
   font: 10px "Helvetica", "Arial", sans-serif;
   line-height: normal;
