@@ -23,7 +23,7 @@ window.onload = function() {
   const socket = io();
   // Variables to store the synced DB data
   var dbObj = {};
-  var words = [];
+  var words = [{text: 'word', size: 5}, {text: 'cloud', size: 15}];
 
   //Variable that sets where writeUserData stores the data in the DB
   var questionRef = 'Question1'
@@ -58,13 +58,20 @@ window.onload = function() {
       }
       console.log("The data: ", snapshot.val());
     });
+    // firebase.database().ref(questionRef + '/___admin').remove()
+    // .then(function() {
+    //   console.log("Remove succeeded.")
+    // })
+    // .catch(function(error) {
+    //   continue;
+    // });
   }
 
   //Cleans the answer into individual words and
   //Passes each word into the database via writeUserData
   questionForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    const punctRE = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g;
+    const punctRE = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;£<=>?@\[\]^_`{|}~]/g;
     const spaceRE = /\s+/g;
     const str = answerTextbox.value;
     const userInputLong = str.replace(punctRE, '').replace(spaceRE, ' ');
@@ -77,19 +84,19 @@ window.onload = function() {
 
   //Gets the database data when it changes and stores it as an array
   database.on('value', function(snap){
+    console.log('questionRef: ' + questionRef);
     dbObj = snap.child(questionRef).val();
+    console.log('snap val', snap.child(questionRef).val());
     var tempArray = [];
-    for (var key in dbObj) {
-      if (dbObj.hasOwnProperty(key)) {
-        // console.log('for in key result ' + dbObj[key] + ' key: ' + key);
-        tempArray.push(`{text: '${key}', size: ${dbObj[key]}}`);
-      }
-    }
-    // console.log('tempArray: '+ tempArray);
-    words = tempArray.map(i => i);
-    readOut.innerText = JSON.stringify(dbObj);
-    // console.log('words: ' + words);
-  })
+
+    for (const key of Object.keys(dbObj)) {
+        console.log('Key: ',key);
+        tempArray.push({text: key, size: dbObj[key]});
+    };
+
+    console.log('tempArray: ', tempArray);
+
+  });
 
   //Updates the question and DB location on admin submit
   socket.on('newQuestion', (data) => {
@@ -98,14 +105,5 @@ window.onload = function() {
     questionRef = data.dbLocation;
     questionPara.innerText = data.question;
   });
-
-  //Creates word cloud
-  d3.wordcloud()
-    .size([800, 400])
-    .selector('#wordcloud')
-    .fill(d3.scale.ordinal().range(["#884400", "#448800", "#888800", "#444400"]))
-    // .words([{text: 'word', size: 5}, {text: 'cloud', size: 15}])
-    .words(words)
-    .start();
 
 };

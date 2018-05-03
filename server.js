@@ -30,6 +30,9 @@ app.get('/', function(req, res){
 app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html');
 });
+app.get('/display', function(req, res){
+  res.sendFile(__dirname + '/public/display.html');
+});
 app.use(express.static(__dirname + '/public'));
 
 //Open web socket with users and updates user count
@@ -50,7 +53,7 @@ app.post('/question', function(req, res){
 
   //Creates a new child node in Firebase with a dummy entry
   firebase.database().ref(newQuestion.dbLocation).set({
-      ___admin: "Delete Me",
+      ___admin: "0",
   });
 
   //Emits the new question data to users <-- NEED TO HANDLE IT NOW.
