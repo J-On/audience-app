@@ -39,8 +39,8 @@ $(function(){
   });
 
   $('#keywords').jQCloud(words, {
-    width: 800,
-    height: 500
+    width: 1000,
+    height: 650
   });
 
   //Updates the question and DB location on admin submit
