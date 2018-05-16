@@ -45,24 +45,21 @@ io.on('connection', function(socket){
   });
 });
 
-//Post data ** WHAT VALIDATION CHECKS SHOULD I INCLUDE HERE?
+//Receives post data from admin panel
 app.post('/question', function(req, res){
-  console.log('req.body: ' + req.body);
   const newQuestion = req.body;
-  console.log('newQuestion.question: ' + newQuestion.question);
 
   //Creates a new child node in Firebase with a dummy entry
   firebase.database().ref(newQuestion.dbLocation).set({
-      _: "0",
+      " ": "0",
   })
 
-  //Emits the new question data to users <-- NEED TO HANDLE IT NOW.
-  console.log('emitting');
+  //Emits the new question data to users
   io.emit('newQuestion', newQuestion);
-
   res.sendStatus(201);
 });
 
+//Gets server listening for connections on the port
 http.listen(PORT, function(){
     console.log('Server is listening on: ' + PORT);
 });

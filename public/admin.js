@@ -10,16 +10,18 @@ window.onload = function() {
   //Data Variables
   var questionCount = 1;
   var newLocation = null;
+  const date = new Date();
+  console.log('Date: ', date)
   var newQuestion = {
     dbLocation: null,
     question: null
   };
 
-  //Function to post question -> NOT WORKING
+  //Function to post question
   function postData() {
-    var questionString = newQuestion
-    console.log('QuestionString: ' + questionString);
-    axios.post(HOSTNAME + '/question', questionString)
+    var questionData = newQuestion
+    console.log('questionData: ' + questionData);
+    axios.post(HOSTNAME + '/question', questionData)
     .then(function (response){
       console.log(response);
       currentQuestion.innerHTML = newQuestion.question;

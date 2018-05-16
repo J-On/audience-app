@@ -26,13 +26,13 @@ window.onload = function() {
   var words = [{text: 'word', size: 5}, {text: 'cloud', size: 15}];
 
   //Variable that sets where writeUserData stores the data in the DB
-  var questionRef = 'Question1'
+  var questionRef = 'Default'
   var dbLocation = firebase.database().ref(questionRef);
 
   //Function to post a new word into the DB or increment existing
   function writeUserData(input) {
     dbLocation = firebase.database().ref(questionRef);
-    console.log('dbnLocation', dbLocation);
+    console.log('dbLocation', dbLocation);
     dbLocation.transaction(function(currentData) {
       const val = currentData[input];
       if (!val && typeof val !== 'number') {
@@ -51,7 +51,7 @@ window.onload = function() {
       if (error) {
         console.log('Transaction failed abnormally!', error);
       } else if (!committed) {
-        console.log('We aborted the transaction (because ada already exists).');
+        console.log('We aborted the transaction (because data entry already exists).');
       } else {
         console.log('Word added..');
       }

@@ -13,10 +13,12 @@ $(function(){
   const database = firebase.database().ref();
 
   //Variable that sets where writeUserData stores the data in the DB
-  var questionRef = 'Question1';
+  var questionRef = 'Default';
   var dbLocation = firebase.database().ref(questionRef);
   var $keywords = $('#keywords');
   var questionTitle = document.getElementById('question-title');
+  const date = new Date();
+  console.log('Date: ', date)
 
   //Initialize socket
   const socket = io();

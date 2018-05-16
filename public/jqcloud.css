@@ -6,27 +6,44 @@
  * Licensed under MIT (http://opensource.org/licenses/MIT)
  */
 
-h1 {
-  font-family: "Helvetica", "Arial", sans-serif;
-  text-align: center;
+body {
+  display: grid;
+  width: 100%;
+  grid-template-areas: "head head"
+  "banner banner"
+  "main main"
+  "footleft footright";
+  grid-template-rows: 175px 50px 1fr 100px;
+  grid-template-columns: 1fr 1fr;
 }
 
-h3 {
-  font-family: "Helvetica", "Arial", sans-serif;
-  text-align: center;
+header {
+  grid-area: head;
+  background-color: #393851;
 }
 
-img {
-  size: 200px;
-  display: block;
+header > h1 {
+  font-family: "Helvetica", "Arial", sans-serif;
+  text-align: center;
+  color: white;
+}
+
+header > img {
+  display:block;
+  width: 200px;
   margin-left: auto;
   margin-right: auto;
 }
 
-#question-title {
+.banner {
+  grid-area: banner;
   font-family: "Helvetica", "Arial", sans-serif;
   text-align: center;
-  color: red;
+}
+
+.graph {
+  grid-area: main;
+  margin: 10px;
 }
 
 .jqcloud {
@@ -84,31 +101,11 @@ img {
   color: #00ccff;
   font-size: 550%;
 }
-.jqcloud-word.w11 {
-  color: #00ccff;
-  font-size: 550%;
-}
-.jqcloud-word.w12 {
-  color: #00ccff;
-  font-size: 550%;
-}
-.jqcloud-word.w13 {
-  color: #00ccff;
-  font-size: 550%;
-}
-.jqcloud-word.w14 {
-  color: #00ccff;
-  font-size: 550%;
-}
-.jqcloud-word.w15 {
-  color: #00ccff;
-  font-size: 550%;
-}
 .jqcloud-word a {
   color: inherit;
   font-size: inherit;
   text-decoration: none;
 }
 .jqcloud-word a:hover {
-  color: #00ccff;
+  color: red;
 }
