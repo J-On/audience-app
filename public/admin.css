@@ -25,3 +25,7 @@ header > img {
   margin-left: auto;
   margin-right: auto;
 }
+
+.main {
+  grid-area: main;
+}

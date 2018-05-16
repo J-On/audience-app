@@ -40,7 +40,7 @@ $(function(){
 
   $('#keywords').jQCloud(words, {
     width: 1000,
-    height: 650
+    height: 500
   });
 
   //Updates the question and DB location on admin submit

@@ -5,26 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Audience Admin Panel</title>
+  <link type="text/css" rel="stylesheet" href="admin.css">
 </head>
 <body>
-  <h1>Audience Admin Panel</h1>
+  <header>
+    <h1>Audience Admin Panel</h1>
+    <img src="sg-white.png">
+  </header>
 
-  <div id="current-user-view">
-    <h3>This is the current audience question:</h3>
-    <p id="current-question"></p>
-    <!-- <p id="answer-count">Answers vs Total users:</p> -->
+  <div class="main">
+    <div id="current-user-view">
+      <h3>This is the current audience question:</h3>
+      <p id="current-question"></p>
+      <!-- <p id="answer-count">Answers vs Total users:</p> -->
+    </div>
+
+    <div id="new-user-view">
+      <h3>Submit a new question to audience here:</h3>
+      <form action="" id="admin-form">
+        Question: <input type="text" name="" id="answer-input"><br>
+        <input type="submit" value="Submit" id="submit-button">
+      </form>
+    </div>
+
+    <button id="reset-button">Reset</button>
+    <button id="refresh-button">Refresh Display</button>
   </div>
-
-  <div id="new-user-view">
-    <h3>Submit a new question to audience here:</h3>
-    <form action="" id="admin-form">
-      Question: <input type="text" name="" id="answer-input"><br>
-      <input type="submit" value="Submit" id="submit-button">
-    </form>
-  </div>
-
-  <button id="reset-button">Reset</button>
-  <button id="refresh-button">Refresh Display</button>
   <script type="text/javascript" src="./admin.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 </body>
