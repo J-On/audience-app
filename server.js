@@ -59,6 +59,13 @@ app.post('/question', function(req, res){
   res.sendStatus(201);
 });
 
+//Receives post data from admin panel
+app.post('/refresh', function(req, res){
+  const refreshData = req.body;
+  io.emit('refreshData', refreshData);
+  res.sendStatus(201);
+});
+
 //Gets server listening for connections on the port
 http.listen(PORT, function(){
     console.log('Server is listening on: ' + PORT);

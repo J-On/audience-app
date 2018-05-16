@@ -17,8 +17,6 @@ $(function(){
   var dbLocation = firebase.database().ref(questionRef);
   var $keywords = $('#keywords');
   var questionTitle = document.getElementById('question-title');
-  const date = new Date();
-  console.log('Date: ', date)
 
   //Initialize socket
   const socket = io();
@@ -51,6 +49,23 @@ $(function(){
     questionRef = data.dbLocation;
     console.log('questionRef: ' +  questionRef);
     questionTitle.innerText = data.question;
+  });
+
+  socket.on('refreshData', (data) => {
+    questionRef = data.dbLocation;
+    questionTitle.innerText = data.question;
+    database.once('value', function(snap){
+      dbObj = snap.child(questionRef).val();
+      var tempArray = [];
+      for (var key in dbObj) {
+        if (dbObj.hasOwnProperty(key)) {
+          tempArray.push({text: `${key}`, weight: dbObj[key]});
+        }
+      }
+
+      words = tempArray.map(i => i);
+      $('#keywords').jQCloud('update', words);
+    });
   });
 
 }); //onload function end
