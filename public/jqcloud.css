@@ -39,11 +39,12 @@ header > img {
   grid-area: banner;
   font-family: "Helvetica", "Arial", sans-serif;
   text-align: center;
+  margin-bottom: 25px
 }
 
 .graph {
   grid-area: main;
-  margin: 10px;
+  margin: 30px;
 }
 
 .jqcloud {
@@ -108,4 +109,18 @@ header > img {
 }
 .jqcloud-word a:hover {
   color: red;
+}
+
+/* text {
+    font: 12px sans-serif;
+} */
+
+svg {
+    display: block;
+}
+html, body, #barchart, svg {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
 }

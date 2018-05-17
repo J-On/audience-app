@@ -23,7 +23,6 @@ window.onload = function() {
   const socket = io();
   // Variables to store the synced DB data
   var dbObj = {};
-  var words = [{text: 'word', size: 5}, {text: 'cloud', size: 15}];
 
   //Variable that sets where writeUserData stores the data in the DB
   var questionRef = 'Default'
@@ -73,22 +72,6 @@ window.onload = function() {
       writeUserData(word);
       answerTextbox.innerText = ""
     }
-  });
-
-  //Gets the database data when it changes and stores it as an array
-  database.on('value', function(snap){
-    console.log('questionRef: ' + questionRef);
-    dbObj = snap.child(questionRef).val();
-    console.log('snap val', snap.child(questionRef).val());
-    var tempArray = [];
-
-    for (const key of Object.keys(dbObj)) {
-        console.log('Key: ',key);
-        tempArray.push({text: key, size: dbObj[key]});
-    };
-
-    console.log('tempArray: ', tempArray);
-
   });
 
   //Updates the question and DB location on admin submit

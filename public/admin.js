@@ -5,6 +5,9 @@ window.onload = function() {
   const newQuestionField = document.getElementById('answer-input');
   const submitButton = document.getElementById('submit-button');
   const refreshButton = document.getElementById('refresh-button');
+  const adminForm = document.getElementById('adminform');
+  const cloudRadio = document.getElementById('cloud-radio');
+  const barRadio = document.getElementById('bar-radio');
   var PORT = 3333; //Check what to use here? Currently works but not sure about live
   var HOSTNAME = '//' + window.location.host || '//localhost:3333';
 
@@ -12,7 +15,8 @@ window.onload = function() {
   var newLocation = null;
   var newQuestion = {
     dbLocation: null,
-    question: null
+    question: null,
+    type: null
   };
 
   //Function to post question
@@ -22,7 +26,7 @@ window.onload = function() {
     axios.post(HOSTNAME + '/question', questionData)
     .then(function (response){
       console.log(response);
-      currentQuestion.innerHTML = newQuestion.question;
+      currentQuestion.innerHTML = ` "${newQuestion.question}" displayed using a ${newQuestion.type} graph`;
     })
     .catch(function (error){
       console.log(error);
@@ -47,8 +51,8 @@ window.onload = function() {
     if (newQuestionField.value !== "") {
       const date = new Date();
       newQuestion.dbLocation = `${date} ${newQuestionField.value}`;
-      console.log('new DB location: ', newQuestion.dbLocation)
       newQuestion.question = newQuestionField.value;
+      newQuestion.type = document.querySelector('input[name="graph"]:checked').value;
       postData();
       newQuestionField.value = "";
     } else window.alert('Question must not be empty');
